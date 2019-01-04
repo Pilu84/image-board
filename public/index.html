@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+<head>
+    <title>Image Board</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <h1>I love pixels</h1>
+    <div id="main">
+<div :class="progress">
+    <div class="prog-container">
+    <div v-for = "item in progressactive" :class="item"></div>
+</div>
+</div>
+
+        <div class="forms">
+        <form class="fixform">
+            <input v-model = "form.title" type="text" name="title" placeholder="title">
+            <input v-model = "form.description" type="text" name="description" placeholder="description">
+            <input v-model= "form.username" type="text" name="username" placeholder="username">
+            <input v-model = "form.tags" type="text" name="tags" placeholder="tags (separete with commas)">
+            <input id="fileform" type="file" accept="image/*" @change = "handleFileChange">
+            <button @click = "uploadFile">upload</button>
+
+        </form>
+
+
+    </div>
+
+<div class="imageholder">
+<div class="show">Show:
+    <ul>
+        <li v-for = "item in showId" :id="item" @click="getMoreImgages" >{{item}}</li>
+    </ul>
+</div>
+<div class="box" v-for = "item in images" @click = "showComp" :id="item.id">
+    <!-- <div class="box" v-for = "item in images" @click = "showComp" :id="item.id" @mouseover = "showText"> -->
+    <div class="images">
+    <a :href="'#' + item.id"><img :src="item.url"></a>
+</div>
+    <div class="texts">
+        <p>{{item.description}}</p>
+    </div>
+</div>
+
+</div>
+<div class="button-container">
+<button @click = "getMoreImgages" :class="classShow">more</button>
+</div>
+
+
+
+
+    <some-component
+    :imageid = "imageId"
+    v-if="imageId"
+    @close = "closeComp"
+    @prog = "progressChild"
+    ></some-component>
+    </div>
+
+    <script id="my-template" type="text/x-template">
+        <div class="single-container">
+
+            <div :class="left" @click = "prev"><p></p></div>
+            <div :class="right" @click = "next"><p></p></div>
+
+
+        <div class="escape" @click = "closeComponent"><img src="./img/black_x.svg"></div>
+
+        <div class="singlebox" v-for = "item in singleimage">
+            <div class="singleimages">
+                <img :src="item.url">
+            </div>
+
+            <div class="singletexts">
+                <p>Title: {{item.title}}</p>
+                <p>Username: {{item.username}}</p>
+                <p>Description: {{item.description}}</p>
+                <p>Date: {{item.created_at}}</p>
+            </div>
+
+        </div>
+        <form>
+            <input v-model = "form.username" type="text" name="username" placeholder="username">
+            <input v-model = "form.comment" type="text" name="comment"
+            placeholder="comment">
+
+            <button @click = "sendComment">Send comment</button>
+        </form>
+        <div class="comments-container">
+            <div class="singleboxtexts" v-for = "item in comments">
+                <p>{{item.c_username}} say at {{item.created}}:</p>
+                <p>{{item.comment}}</p>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    </script>
+
+    <script src="/js/vue.js"></script>
+    <script src="/js/axios.min.js"></script>
+    <script src="/js/script.js"></script>
+</body>
+
+</html>
